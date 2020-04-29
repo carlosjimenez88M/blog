@@ -6,7 +6,7 @@
     <description>Recent content on Un Data Scientist Dice</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <copyright>Copyright © 2008–2019, Steve Francia and the Hugo Authors; all rights reserved.</copyright>
+    <copyright>Copyright © 2020, Daniel Jiménez; all rights reserved.</copyright>
     <lastBuildDate>Thu, 02 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
@@ -73,9 +73,8 @@ pectora summo.&lt;/p&gt;</description>
       <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>/about/</guid>
-      <description>Written in Go, Hugo is an open source static site generator available under the Apache Licence 2.0. Hugo supports TOML, YAML and JSON data file types, Markdown and HTML content files and uses shortcodes to add rich content. Other notable features are taxonomies, multilingual mode, image processing, custom output formats, HTML/CSS/JS minification and support for Sass SCSS workflows.
-Hugo makes use of a variety of open source projects including:
- https://github.</description>
+      <description>Hi! I am Daniel Jiménez, Principal Data Scientist in Chiper, where I develop advanced analytics,machine learning model and statistical programming for differents company needs.At the same time I am teacher in Universidad Nacional de colombia, where I teach the following subjects: Big Data, Introduction to Data Science and Statistical Learning and Machine Learning.
+I am passionate about Applied Machine Learning, Statistical Modelling, Bayesian Data Analysis and Forecasting models. I more than nine years of experience developing and applying for differents industries,mainly for public institutions and strartups.</description>
     </item>
     
     <item>
