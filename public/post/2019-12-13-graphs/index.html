@@ -1,0 +1,1962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Gramática de los gráficos | 
+    Un Data Scientist Dice
+  
+</title><meta name="description" content="Machine Learnign and Statistical modelling."><meta name="author" content="Daniel Jiménez">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism.min.css">
+    
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://danieljimenezm.com/post/2019-12-13-graphs/"><meta property="og:title" content="Gramática de los gráficos" />
+<meta property="og:description" content="Una apreciación a un problema menor El diseño de gráficos estadísticos tiene dos componentes principales: i) el arte de saber transmitir la información y la idea y ii) el procesamiento que está detras de ello. Pero cuando se desagrega de manera eficiente, los highlight tienden a no verse de la manera apropiada y es de aceptar que para este problema hay varias soluciones practicas, pero en terminos de eficiencia de código puede que no 👨🏻 💻." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://danieljimenezm.com/post/2019-12-13-graphs/" />
+
+<meta itemprop="name" content="Gramática de los gráficos">
+<meta itemprop="description" content="Una apreciación a un problema menor El diseño de gráficos estadísticos tiene dos componentes principales: i) el arte de saber transmitir la información y la idea y ii) el procesamiento que está detras de ello. Pero cuando se desagrega de manera eficiente, los highlight tienden a no verse de la manera apropiada y es de aceptar que para este problema hay varias soluciones practicas, pero en terminos de eficiencia de código puede que no 👨🏻 💻.">
+
+<meta itemprop="wordCount" content="1489">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Gramática de los gráficos"/>
+<meta name="twitter:description" content="Una apreciación a un problema menor El diseño de gráficos estadísticos tiene dos componentes principales: i) el arte de saber transmitir la información y la idea y ii) el procesamiento que está detras de ello. Pero cuando se desagrega de manera eficiente, los highlight tienden a no verse de la manera apropiada y es de aceptar que para este problema hay varias soluciones practicas, pero en terminos de eficiencia de código puede que no 👨🏻 💻."/>
+
+
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        // Center justify equations in code and markdown cells. Elsewhere
+        // we use CSS to left justify single line equations in code cells.
+        displayAlign: 'center',
+        "HTML-CSS": {
+            styles: {'.MathJax_Display': {"margin": 0}},
+            linebreaks: { automatic: true }
+        }
+    });
+    </script>
+    
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://danieljimenezm.com">Un Data Scientist Dice</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">January 1, 0001</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>1489 words</span>
+                            <span><i class="fas fa-clock mr-2"></i>7 mins read</span>
+                        </div>
+
+                        <h1>Gramática de los gráficos</h1>
+
+                        
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+
+
+<div id="una-apreciación-a-un-problema-menor" class="section level2">
+<h2>Una apreciación a un problema menor</h2>
+<p>El diseño de gráficos estadísticos tiene dos componentes principales: i) el arte de saber transmitir la información y la idea y ii) el procesamiento que está detras de ello. Pero cuando se desagrega de manera eficiente, los highlight tienden a no verse de la manera apropiada y es de aceptar que para este problema hay varias soluciones practicas, pero en terminos de eficiencia de código puede que no 👨🏻
+💻.</p>
+<p>Y es por lo anterior que se usan funciones auxiliares para poder desarrollar de manera apropiada este tipo de gráficos desagregados (facetting). No sobra recordar que <strong>The Grammar of Graphics</strong>(1980) explicaba que las etapas del desarrollo de los gráficos consiste en :</p>
+<ul>
+<li><p>Generar reglas que deriven en la explicación de un problema : Barplots, Points, etc.</p></li>
+<li><p>Desarrollar la matemática que está detrás de la simbología.</p></li>
+<li><p>Entender y saber relacionar los componentes que se necesitan.</p></li>
+</ul>
+<p>Pero ante lo anterior surgen una serie de preguntas ¿ Qué es un gráfico?, ¿ Qué debe describir un gráfico?.</p>
+<p>Una de las definiciones que más me gusta es la da <a href="http://hadley.nz/">Hadley Wickham</a>, en donde describe a un gráfico como un conector de ideas a través de variables. Con respecto a lo que debe describir un gráfico se puede decir de manera corta como: Hallazgos y conclusiones.</p>
+<p><img src="https://media0.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif?cid=790b761130f9d794d36ee1735374127d3e1f6ce387375099&amp;rid=giphy.gif" /></p>
+</div>
+<div id="las-leyes-de-la-gramática-de-los-gráficos" class="section level2">
+<h2>Las leyes de la gramática de los gráficos</h2>
+<p>En su ensayo <strong>A Layered Grammar of Graphics</strong> Wickham define los niveles (las leyes) que debe cumplir todo gráfico</p>
+<ul>
+<li><p>Datos : Sobre los cuales se desarrollaran operaciones matemáticas que deriven en la conexión de variables y con ello de entendimiento.</p></li>
+<li><p>Elementos : La geometría y la posición que tendrá la data.</p></li>
+<li><p>Escala : La unidad de medida unificada por coordenada</p></li>
+<li><p>Coordenadas : El mapa que sigue el gráfico.</p></li>
+</ul>
+<p>Las transformaciones estadísticas que van dentro de los gráficos se pueden definir de la siguiente manera:</p>
+<p><img src="../images/graphs.png" />
+Tomado de :<a href="https://byrneslab.net/classes/biol607/readings/wickham_layered-grammar.pdf">A LAYERED GRAMMAR OF GRAPHICS</a></p>
+</div>
+<div id="facetting" class="section level2">
+<h2>Facetting</h2>
+<p>Esta condición es la que permite separar los gráficos por alguna de las variables que permita desagregación y precisión.</p>
+</div>
+<div id="un-ejemplo" class="section level2">
+<h2>Un ejemplo</h2>
+<p>Se explora un poco la data</p>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-3">Table 1: </span>Data Agrupada
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+franchise
+</th>
+<th style="text-align:left;">
+original_media
+</th>
+<th style="text-align:right;">
+year_created
+</th>
+<th style="text-align:left;">
+creators
+</th>
+<th style="text-align:left;">
+owners
+</th>
+<th style="text-align:right;">
+categories
+</th>
+<th style="text-align:right;">
+total_revenue
+</th>
+<th style="text-align:left;">
+most_profitable
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Anpanman
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+1973
+</td>
+<td style="text-align:left;">
+Takashi Yanase
+</td>
+<td style="text-align:left;">
+Froebel-kan
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+60.092
+</td>
+<td style="text-align:left;">
+Merchandise, Licensing &amp; Retail
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Batman
+</td>
+<td style="text-align:left;">
+Comic book
+</td>
+<td style="text-align:right;">
+1939
+</td>
+<td style="text-align:left;">
+Bob Kane Bill Finger
+</td>
+<td style="text-align:left;">
+DC Entertainment (AT&amp;T)
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+25.040
+</td>
+<td style="text-align:left;">
+Merchandise, Licensing &amp; Retail
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Barbie
+</td>
+<td style="text-align:left;">
+Animated film
+</td>
+<td style="text-align:right;">
+1987
+</td>
+<td style="text-align:left;">
+Ruth Handler
+</td>
+<td style="text-align:left;">
+Mattel
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+23.005
+</td>
+<td style="text-align:left;">
+Merchandise, Licensing &amp; Retail
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Avengers
+</td>
+<td style="text-align:left;">
+Comic book
+</td>
+<td style="text-align:right;">
+1963
+</td>
+<td style="text-align:left;">
+Stan Lee Jack Kirby
+</td>
+<td style="text-align:left;">
+Marvel Entertainment (The Walt Disney Company)
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+12.590
+</td>
+<td style="text-align:left;">
+Box Office
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Angry Birds
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+2009
+</td>
+<td style="text-align:left;">
+Jaakko Iisalo
+</td>
+<td style="text-align:left;">
+Rovio
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+8.480
+</td>
+<td style="text-align:left;">
+Merchandise, Licensing &amp; Retail
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ben 10
+</td>
+<td style="text-align:left;">
+Animated series
+</td>
+<td style="text-align:right;">
+2005
+</td>
+<td style="text-align:left;">
+Man of Action Studios
+</td>
+<td style="text-align:left;">
+Cartoon Network (AT&amp;T)
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+7.000
+</td>
+<td style="text-align:left;">
+Merchandise, Licensing &amp; Retail
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A Song of Ice and Fire / Game of Thrones
+</td>
+<td style="text-align:left;">
+Novel
+</td>
+<td style="text-align:right;">
+1996
+</td>
+<td style="text-align:left;">
+George R. R. Martin
+</td>
+<td style="text-align:left;">
+Random House WarnerMedia (AT&amp;T)
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+5.313
+</td>
+<td style="text-align:left;">
+TV
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Aladdin
+</td>
+<td style="text-align:left;">
+Animated film
+</td>
+<td style="text-align:right;">
+1992
+</td>
+<td style="text-align:left;">
+Walt Disney Animation Hanna Diyab
+</td>
+<td style="text-align:left;">
+The Walt Disney Company (franchise) Sega Sammy Holdings (games/pachinko)
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+4.907
+</td>
+<td style="text-align:left;">
+Video Games/Games
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Assassin’s Creed
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+2007
+</td>
+<td style="text-align:left;">
+Patrice Désilets Jade Raymond Corey May
+</td>
+<td style="text-align:left;">
+Ubisoft
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+4.253
+</td>
+<td style="text-align:left;">
+Video Games/Games
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Beyblade
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+1999
+</td>
+<td style="text-align:left;">
+Takao Aoki
+</td>
+<td style="text-align:left;">
+Shogakukan (Hitotsubashi Group)
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+4.009
+</td>
+<td style="text-align:left;">
+Merchandise, Licensing &amp; Retail
+</td>
+</tr>
+</tbody>
+</table>
+<p>Respetando las reglas de los gráficos se desarrolla un modelo matemático sencillo para el ejemplo</p>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-4">Table 2: </span>Análisis de frecuencia por el formato
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+original_media
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+27
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+17
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Animated film
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Animated series
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Novel
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Television series
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Comic book
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Film
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Animated cartoon
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Anime
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Book
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Digital pet
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Greeting card
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cartoon
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cartoon character
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Comic strip
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Musical theatre
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Visual novel
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+<p>Paso seguido se estudia el promedio del <code>revenue</code> a través de la franquicia.</p>
+<pre class="r"><code>Avg_fraq&lt;-franchises%&gt;%
+  group_by(franchise,original_media)%&gt;%
+  summarize(Avg_Revenue = mean(total_revenue))%&gt;%
+  ungroup()%&gt;%
+  mutate(franchise = fct_reorder(franchise,Avg_Revenue))
+
+Avg_fraq%&gt;%
+  knitr::kable(format = &#39;html&#39;,caption = &#39;Relación de la franquicia por el promedio de los ingresos&#39;)</code></pre>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-5">Table 3: </span>Relación de la franquicia por el promedio de los ingresos
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+franchise
+</th>
+<th style="text-align:left;">
+original_media
+</th>
+<th style="text-align:right;">
+Avg_Revenue
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A Song of Ice and Fire / Game of Thrones
+</td>
+<td style="text-align:left;">
+Novel
+</td>
+<td style="text-align:right;">
+5.313
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Aladdin
+</td>
+<td style="text-align:left;">
+Animated film
+</td>
+<td style="text-align:right;">
+4.907
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Angry Birds
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+8.480
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Anpanman
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+60.092
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Assassin’s Creed
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+4.253
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Avengers
+</td>
+<td style="text-align:left;">
+Comic book
+</td>
+<td style="text-align:right;">
+12.590
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Barbie
+</td>
+<td style="text-align:left;">
+Animated film
+</td>
+<td style="text-align:right;">
+23.005
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Batman
+</td>
+<td style="text-align:left;">
+Comic book
+</td>
+<td style="text-align:right;">
+25.040
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ben 10
+</td>
+<td style="text-align:left;">
+Animated series
+</td>
+<td style="text-align:right;">
+7.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Beyblade
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+4.009
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bleach
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+7.066
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bob the Builder
+</td>
+<td style="text-align:left;">
+Animated series
+</td>
+<td style="text-align:right;">
+5.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Call of Duty
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+17.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Candy Crush Saga
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+4.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Care Bears
+</td>
+<td style="text-align:left;">
+Greeting card
+</td>
+<td style="text-align:right;">
+5.052
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cars
+</td>
+<td style="text-align:left;">
+Animated film
+</td>
+<td style="text-align:right;">
+21.654
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CrossFire
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+10.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DC Extended Universe
+</td>
+<td style="text-align:left;">
+Film
+</td>
+<td style="text-align:right;">
+6.204
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Despicable Me / Minions
+</td>
+<td style="text-align:left;">
+Animated film
+</td>
+<td style="text-align:right;">
+6.686
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Detective Conan / Case Closed
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+5.685
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Digimon
+</td>
+<td style="text-align:left;">
+Digital pet
+</td>
+<td style="text-align:right;">
+5.968
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Disney Princess
+</td>
+<td style="text-align:left;">
+Animated series
+</td>
+<td style="text-align:right;">
+44.042
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Dora the Explorer
+</td>
+<td style="text-align:left;">
+Animated series
+</td>
+<td style="text-align:right;">
+15.250
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Doraemon
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+6.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Dragon Ball
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+21.825
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Dragon Quest
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+11.465
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Dungeon Fighter Online
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+10.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Fast &amp; Furious
+</td>
+<td style="text-align:left;">
+Film
+</td>
+<td style="text-align:right;">
+5.466
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Fate
+</td>
+<td style="text-align:left;">
+Visual novel
+</td>
+<td style="text-align:right;">
+3.569
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Final Fantasy
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+11.199
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Fist of the North Star
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+20.468
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Friends
+</td>
+<td style="text-align:left;">
+Television series
+</td>
+<td style="text-align:right;">
+4.130
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Frozen
+</td>
+<td style="text-align:left;">
+Animated film
+</td>
+<td style="text-align:right;">
+10.473
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Gran Turismo
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+4.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Grand Theft Auto
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+9.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Gundam
+</td>
+<td style="text-align:left;">
+Anime
+</td>
+<td style="text-align:right;">
+25.525
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Halo
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+6.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hello Kitty
+</td>
+<td style="text-align:left;">
+Cartoon character
+</td>
+<td style="text-align:right;">
+80.026
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hunter × Hunter
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+3.351
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ice Age
+</td>
+<td style="text-align:left;">
+Animated film
+</td>
+<td style="text-align:right;">
+3.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+James Bond
+</td>
+<td style="text-align:left;">
+Novel
+</td>
+<td style="text-align:right;">
+13.901
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+JoJo’s Bizarre Adventure
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+8.860
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Jurassic Park
+</td>
+<td style="text-align:left;">
+Novel
+</td>
+<td style="text-align:right;">
+7.678
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+KochiKame
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+15.817
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Kumamon
+</td>
+<td style="text-align:left;">
+Cartoon
+</td>
+<td style="text-align:right;">
+4.065
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+League of Legends
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+8.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Looney Tunes
+</td>
+<td style="text-align:left;">
+Animated cartoon
+</td>
+<td style="text-align:right;">
+13.299
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mario
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+35.021
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Marvel Cinematic Universe
+</td>
+<td style="text-align:left;">
+Film
+</td>
+<td style="text-align:right;">
+31.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mickey Mouse &amp; Friends
+</td>
+<td style="text-align:left;">
+Animated cartoon
+</td>
+<td style="text-align:right;">
+69.737
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Middle-earth / Lord of the Rings
+</td>
+<td style="text-align:left;">
+Novel
+</td>
+<td style="text-align:right;">
+18.722
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Minecraft
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+5.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mission: Impossible
+</td>
+<td style="text-align:left;">
+Television series
+</td>
+<td style="text-align:right;">
+3.146
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Monster Strike
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+7.010
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mortal Kombat
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+1.173
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+My Little Pony
+</td>
+<td style="text-align:left;">
+Animated cartoon
+</td>
+<td style="text-align:right;">
+4.071
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Naruto
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+8.854
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Neon Genesis Evangelion
+</td>
+<td style="text-align:left;">
+Anime
+</td>
+<td style="text-align:right;">
+15.237
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+One Piece
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+17.433
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Pac-Man
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+15.032
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PAW Patrol
+</td>
+<td style="text-align:left;">
+Animated series
+</td>
+<td style="text-align:right;">
+7.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Peanuts
+</td>
+<td style="text-align:left;">
+Comic strip
+</td>
+<td style="text-align:right;">
+17.285
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Pirates of the Caribbean
+</td>
+<td style="text-align:left;">
+Film
+</td>
+<td style="text-align:right;">
+6.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Pokémon
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+90.863
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Pretty Cure / Glitter Force
+</td>
+<td style="text-align:left;">
+Anime
+</td>
+<td style="text-align:right;">
+7.228
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Puzzle &amp; Dragons
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+7.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Resident Evil
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+4.688
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rurouni Kenshin / Samurai X
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+3.570
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sailor Moon
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+14.319
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sesame Street / The Muppets
+</td>
+<td style="text-align:left;">
+Television series
+</td>
+<td style="text-align:right;">
+7.646
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Shōnen Jump / Jump Comics
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+33.217
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Shrek
+</td>
+<td style="text-align:left;">
+Novel
+</td>
+<td style="text-align:right;">
+4.275
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Slam Dunk
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+4.658
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sonic the Hedgehog
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+7.007
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Space Invaders
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+13.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Spider-Man
+</td>
+<td style="text-align:left;">
+Comic book
+</td>
+<td style="text-align:right;">
+24.550
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SpongeBob SquarePants
+</td>
+<td style="text-align:left;">
+Animated series
+</td>
+<td style="text-align:right;">
+13.465
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Star Trek
+</td>
+<td style="text-align:left;">
+Television series
+</td>
+<td style="text-align:right;">
+9.326
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Star Wars
+</td>
+<td style="text-align:left;">
+Film
+</td>
+<td style="text-align:right;">
+63.004
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Strawberry Shortcake
+</td>
+<td style="text-align:left;">
+Greeting card
+</td>
+<td style="text-align:right;">
+4.002
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Street Fighter
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+11.235
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Super Sentai / Power Rangers
+</td>
+<td style="text-align:left;">
+Television series
+</td>
+<td style="text-align:right;">
+29.233
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Superman
+</td>
+<td style="text-align:left;">
+Comic book
+</td>
+<td style="text-align:right;">
+13.152
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Tamagotchi
+</td>
+<td style="text-align:left;">
+Digital pet
+</td>
+<td style="text-align:right;">
+5.160
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Teenage Mutant Ninja Turtles
+</td>
+<td style="text-align:left;">
+Comic book
+</td>
+<td style="text-align:right;">
+12.735
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+The Big Bang Theory
+</td>
+<td style="text-align:left;">
+Television series
+</td>
+<td style="text-align:right;">
+4.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+The Hunger Games
+</td>
+<td style="text-align:left;">
+Novel
+</td>
+<td style="text-align:right;">
+2.475
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+The Lion King
+</td>
+<td style="text-align:left;">
+Animated film
+</td>
+<td style="text-align:right;">
+12.987
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+The Phantom of the Opera
+</td>
+<td style="text-align:left;">
+Musical theatre
+</td>
+<td style="text-align:right;">
+6.155
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+The Simpsons
+</td>
+<td style="text-align:left;">
+Animated series
+</td>
+<td style="text-align:right;">
+13.527
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Thomas &amp; Friends
+</td>
+<td style="text-align:left;">
+Book
+</td>
+<td style="text-align:right;">
+8.020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Toy Story
+</td>
+<td style="text-align:left;">
+Animated film
+</td>
+<td style="text-align:right;">
+19.540
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Transformers
+</td>
+<td style="text-align:left;">
+Animated series
+</td>
+<td style="text-align:right;">
+15.740
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Twilight
+</td>
+<td style="text-align:left;">
+Novel
+</td>
+<td style="text-align:right;">
+5.388
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ultraman
+</td>
+<td style="text-align:left;">
+Television series
+</td>
+<td style="text-align:right;">
+11.242
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Warcraft
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+10.451
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Westward Journey
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+6.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Wii series
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+14.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Winnie the Pooh
+</td>
+<td style="text-align:left;">
+Book
+</td>
+<td style="text-align:right;">
+74.519
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Wizarding World / Harry Potter
+</td>
+<td style="text-align:left;">
+Novel
+</td>
+<td style="text-align:right;">
+28.108
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+X-Men
+</td>
+<td style="text-align:left;">
+Comic book
+</td>
+<td style="text-align:right;">
+7.033
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Yo-kai Watch
+</td>
+<td style="text-align:left;">
+Video game
+</td>
+<td style="text-align:right;">
+4.023
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Yu-Gi-Oh!
+</td>
+<td style="text-align:left;">
+Manga
+</td>
+<td style="text-align:right;">
+18.567
+</td>
+</tr>
+</tbody>
+</table>
+<p>Paso seguido se desarrolla un gráfico con facetting en <code>original_media</code></p>
+<pre class="r"><code>franq_sort&lt;-franchises%&gt;%
+  mutate(decade = (year_created%/% 10)*10)%&gt;%
+  group_by(decade)%&gt;%
+  count(original_media,sort = TRUE)%&gt;%
+  ungroup()
+
+franq_sort%&gt;%
+  group_by(decade)%&gt;%
+  top_n(10)%&gt;%
+  ungroup()%&gt;%
+  mutate(decade = as.factor(decade))%&gt;%
+  ggplot(aes(original_media,n,fill=decade))+
+  geom_col(show.legend = FALSE)+
+  facet_wrap(~decade, scales = &#39;free_y&#39;)+
+  scale_y_continuous(expand = c(0,0)) +
+  coord_flip()</code></pre>
+<pre><code>## Selecting by n</code></pre>
+<p><img src="/post/2019-12-13-Graphs_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Como se puede observar, no hay un ordenamiento claro y es por ello que se usará el paquete <code>tidytext</code><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, el cual permite a través de <code>reorder_within</code> solucionar el problema de cardinalidad.</p>
+<pre class="r"><code>franq_sort%&gt;%
+  group_by(decade)%&gt;%
+  top_n(10)%&gt;%
+  ungroup()%&gt;%
+  mutate(decade = as.factor(decade),
+         original_media = reorder_within(original_media,n,decade))%&gt;%
+  ggplot(aes(original_media,n,fill=decade))+
+  geom_col(show.legend = FALSE)+
+  facet_wrap(~decade, scales = &#39;free_y&#39;)+
+  scale_x_reordered() +
+  scale_y_continuous(expand = c(0,0)) +
+  coord_flip()</code></pre>
+<pre><code>## Selecting by n</code></pre>
+<p><img src="/post/2019-12-13-Graphs_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Y así con la función auxiliar, los gráficos quedan ordenados y computacionalmente el código es más eficiente.</p>
+<p>Al desarrollar un análisis más eficiente combinando una pregunta de negocio o de contexto versus las leyes de la gramática de los gráficos. Una medidas poco robusta pero que se usará para este caso será el promedio, a través de el se intentará determinar a través de las decadas cuál es la franquicia que mejor <em>revenue</em> ha tenido.</p>
+<pre class="r"><code>franchises%&gt;%
+  mutate(decade = (year_created%/% 10)*10)%&gt;%
+  group_by(decade, original_media, franchise)%&gt;%
+  summarize(Avg_revenue = mean(total_revenue))%&gt;%
+  ungroup()%&gt;%
+  mutate(franchise = fct_reorder(franchise,Avg_revenue))%&gt;%
+  top_n(40)%&gt;%
+  ggplot(aes(franchise,Avg_revenue, fill= original_media))+
+  geom_col(show.legend = TRUE)+
+  labs(title = &quot;Relación de las franquicias en el tiempo&quot;, subtitle = &quot;A través del valor promedio de sus ganancias&quot;, fill=&quot;&quot;)+
+  facet_wrap(~decade, scales = &#39;free&#39;)+
+  coord_flip()+
+  theme(legend.position=c(0.8,0.1), legend.direction = &#39;horizontal&#39;, legend.box = &quot;vertical&quot;, legend.text = element_text(size = 3),
+        legend.title = element_text(size = 3), legend.key.size = unit(0.3,&quot;cm&quot;))</code></pre>
+<p><img src="/post/2019-12-13-Graphs_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Y así el facetting cumple los sigiuentes objetivos:</p>
+<ul>
+<li>Ordenar por las fases que se piden ,</li>
+<li>Dar a entender una idea,</li>
+<li>Calcular y representar una idea.</li>
+</ul>
+<p>Por último se evalua el nivel de volatilidad de los ingresos por cada una de las franquicias desde 1970, en donde el resultado es el siguiente.</p>
+<p><img src="/post/2019-12-13-Graphs_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Para finalizar quiero resaltar la importancia del <code>tidytext</code> para el diseño de gráficos, si desea conocer mayor bibliografía o conocer mejores practicas, recomiendo el blog de <a href="https://cedricscherer.netlify.com/">Cédric Scherer</a>.</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p><a href="https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html" class="uri">https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+
+                        </div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fdanieljimenezm.com%2fpost%2f2019-12-13-graphs%2f&text=Gram%c3%a1tica%20de%20los%20gr%c3%a1ficos">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fdanieljimenezm.com%2fpost%2f2019-12-13-graphs%2f&title=Gram%c3%a1tica%20de%20los%20gr%c3%a1ficos">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fdanieljimenezm.com%2fpost%2f2019-12-13-graphs%2f&t=Gram%c3%a1tica%20de%20los%20gr%c3%a1ficos">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fdanieljimenezm.com%2fpost%2f2019-12-13-graphs%2f&title=Gram%c3%a1tica%20de%20los%20gr%c3%a1ficos">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div><div class="row justify-content-center my-3">
+                    <div class="col-lg-8">
+                        <div id="commento"></div>
+                        <script src="https://commento.io"></script>
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://danieljimenezm.com/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                        <a href="mailto:cjimenez187@aol.com" class="icons d-block">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li><li class="list-inline-item">
+                            <a href="https://github.com/carlosjimenez88M" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li><li class="list-inline-item">
+                            <a href="https://www.linkedin.com/in/djimenezm/" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li><li class="list-inline-item">
+                            <a href="https://twitter.com/DanielJimenezM9" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2020, Daniel Jiménez; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+<script>
+    window.Prism = window.Prism || {};
+    window.Prism.manual = true;
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+
+
+
+    
+</body>
+</html>

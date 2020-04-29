@@ -3,51 +3,83 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/</loc>
+    <loc>https://danieljimenezm.com/</loc>
     <lastmod>2019-02-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/about/</loc>
+    <loc>https://danieljimenezm.com/about/</loc>
     <lastmod>2019-02-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2019-02-09-distribucion_beta/</loc>
+    <loc>https://danieljimenezm.com/post/2019-02-09-distribucion_beta/</loc>
     <lastmod>2019-02-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/</loc>
+    <loc>https://danieljimenezm.com/post/</loc>
     <lastmod>2019-02-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/authors/hugo-authors/</loc>
+    <loc>https://danieljimenezm.com/authors/hugo-authors/</loc>
   </url>
   
   <url>
-    <loc>/authors/jane-smith/</loc>
+    <loc>https://danieljimenezm.com/authors/jane-smith/</loc>
   </url>
   
   <url>
-    <loc>/authors/john-doe/</loc>
+    <loc>https://danieljimenezm.com/authors/john-doe/</loc>
   </url>
   
   <url>
-    <loc>/authors/</loc>
+    <loc>https://danieljimenezm.com/authors/</loc>
   </url>
   
   <url>
-    <loc>/categories/</loc>
+    <loc>https://danieljimenezm.com/categories/</loc>
   </url>
   
   <url>
-    <loc>/series/</loc>
+    <loc>https://danieljimenezm.com/post/2019-12-13-graphs/</loc>
   </url>
   
   <url>
-    <loc>/tags/</loc>
+    <loc>https://danieljimenezm.com/post/2020-01-04-boostrap/</loc>
+  </url>
+  
+  <url>
+    <loc>https://danieljimenezm.com/post/2019-04-09-monte_carlo/</loc>
+  </url>
+  
+  <url>
+    <loc>https://danieljimenezm.com/post/2019-08-18-python_vs_r/</loc>
+  </url>
+  
+  <url>
+    <loc>https://danieljimenezm.com/post/2019-10-19-redes_bayesianas/</loc>
+  </url>
+  
+  <url>
+    <loc>https://danieljimenezm.com/series/</loc>
+  </url>
+  
+  <url>
+    <loc>https://danieljimenezm.com/tags/</loc>
+  </url>
+  
+  <url>
+    <loc>https://danieljimenezm.com/post/2020-04-21-nlp/</loc>
+  </url>
+  
+  <url>
+    <loc>https://danieljimenezm.com/post/2020-02-10-ensamble/</loc>
+  </url>
+  
+  <url>
+    <loc>https://danieljimenezm.com/post/2019-11-17-diferencias/</loc>
   </url>
   
 </urlset>

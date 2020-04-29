@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Redes Bayesianas | 
+    Un Data Scientist Dice
+  
+</title><meta name="description" content="Machine Learnign and Statistical modelling."><meta name="author" content="Daniel Jiménez">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism.min.css">
+    
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://danieljimenezm.com/post/2019-10-19-redes_bayesianas/"><meta property="og:title" content="Redes Bayesianas" />
+<meta property="og:description" content="El uso de Bayes en temas como Machine Learning , estadística y en aplicaciones de AI son impresionantes y es por ello que este tipo de corriente es fundamental para tener modelos optimos para el que - hacer bajo un foco de negocio o investigación. Puntualmente la corriente del emprirical bayes proporciona una versión de diseño de modelos más apropiados , gracias a los parámetros que define en el proceso inferencial." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://danieljimenezm.com/post/2019-10-19-redes_bayesianas/" />
+
+<meta itemprop="name" content="Redes Bayesianas">
+<meta itemprop="description" content="El uso de Bayes en temas como Machine Learning , estadística y en aplicaciones de AI son impresionantes y es por ello que este tipo de corriente es fundamental para tener modelos optimos para el que - hacer bajo un foco de negocio o investigación. Puntualmente la corriente del emprirical bayes proporciona una versión de diseño de modelos más apropiados , gracias a los parámetros que define en el proceso inferencial.">
+
+<meta itemprop="wordCount" content="1269">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Redes Bayesianas"/>
+<meta name="twitter:description" content="El uso de Bayes en temas como Machine Learning , estadística y en aplicaciones de AI son impresionantes y es por ello que este tipo de corriente es fundamental para tener modelos optimos para el que - hacer bajo un foco de negocio o investigación. Puntualmente la corriente del emprirical bayes proporciona una versión de diseño de modelos más apropiados , gracias a los parámetros que define en el proceso inferencial."/>
+
+
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        // Center justify equations in code and markdown cells. Elsewhere
+        // we use CSS to left justify single line equations in code cells.
+        displayAlign: 'center',
+        "HTML-CSS": {
+            styles: {'.MathJax_Display': {"margin": 0}},
+            linebreaks: { automatic: true }
+        }
+    });
+    </script>
+    
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://danieljimenezm.com">Un Data Scientist Dice</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">About</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">January 1, 0001</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>1269 words</span>
+                            <span><i class="fas fa-clock mr-2"></i>6 mins read</span>
+                        </div>
+
+                        <h1>Redes Bayesianas</h1>
+
+                        
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<link href="/rmarkdown-libs/vis/vis.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/vis/vis.min.js"></script>
+<script src="/rmarkdown-libs/visNetwork-binding/visNetwork.js"></script>
+
+
+<p>El uso de Bayes en temas como Machine Learning , estadística y en aplicaciones de AI son impresionantes y es por ello que este tipo de corriente es fundamental para tener modelos optimos para el que - hacer bajo un foco de negocio o investigación. Puntualmente la corriente del <a href="https://en.wikipedia.org/wiki/Empirical_Bayes_method">emprirical bayes</a> proporciona una versión de diseño de modelos más apropiados , gracias a los parámetros que define en el proceso inferencial.</p>
+<div id="conceptos-previos" class="section level2">
+<h2>Conceptos previos</h2>
+<ul>
+<li>¿ En qué consiste la teoría Bayesiana ?</li>
+</ul>
+<p>Una aproximación que me llama la atención es la siguiente :</p>
+<pre><code>+ Es la que estudia el verdadero estado de un objeto de estudio en grados de incertidumbre.</code></pre>
+<p>Otra definición que cala más con un concepto en el mundo real es</p>
+<pre><code>+ Es el procedimiento matemático que permite actualizar las probabilidades de los eventos determinados por creencias previas.</code></pre>
+<p>Dicho lo anterior , los metódos bayesianos se caracterizan por no tener en cuenta las probabilidad como una frecuencia rígida, sino por permitirse mover las distribuciones de las frecuencias (previa y posterior). Dicho lo anterior la estadística bayesiana tiene las siguientes particularidades:</p>
+<pre><code>+ Variación en los parámetros
++ Data flexible 
++ Probabilidad condicionada
++ Credibilidad en los intervalos 
++ Una probabilidad prior (fuerte)</code></pre>
+<p>Dicho lo anterior , la probabilidad bayesiana tiene el siguiente comportamiento</p>
+<p><span class="math display">\[
+P(A|B) = \frac{P(B|A) P(A)}{P(B)}
+\]</span></p>
+<p>Donde:</p>
+<ol style="list-style-type: lower-roman">
+<li><p>P(A) = Probabilidad a priori</p></li>
+<li><p>P(B|A) = Probabilidad de B dada la hipótesis de A</p></li>
+<li><p>P(A|B) = Probabilidad posterior</p></li>
+</ol>
+<p>Esta formula es indudablemente revolucionaria , por su sencillez y gran capacidad de aplicación. La <a href="https://towardsdatascience.com/bayes-theorem-the-holy-grail-of-data-science-55d93315defb">teoría bayesiana</a>, expresa la probabilidad condicionanda de un evento aleatorio gracias a la probabilidad de las distribuciones de los eventos.</p>
+</div>
+<div id="redes-bayesianas" class="section level2">
+<h2>Redes Bayesianas</h2>
+<p>Las redes bayesianas son el conjunto de grafos que representan un conjunto de variables random y sus condiciones. Un ejemplo sería : relaciones probabilisticas entre condiciones macroeconómicas y crisis económicas.</p>
+<p>Otra definición que puede ayudar a interpretar este concepto es la siguiente</p>
+<blockquote>
+<p>“Bayesian networks (BNs) are a type of graphical model that encode the conditional probability between different learning variables in a directed acyclic graph.” Hamed,(2019)</p>
+</blockquote>
+<p>Dicho lo anterior cuando se desarrollan BNs (Bayesian Networks ) estamos hablando de una técnica del <a href="https://towardsdatascience.com/unsupervised-machine-learning-9329c97d6d9f">ML no supervisado</a>, la cual es eficiente en el sentido de encontrar estadísticos robustos.</p>
+<p>Un ejemplo sería el siguiente (la data está incluida en el paquete <a href="http://www.bnlearn.com/">bnlearn</a>). “Coronary” es un set de tatos que describe los facortes de riesgo para una trombosis coronaria.</p>
+<p>La estructura de los datos es la siguiente</p>
+<ul>
+<li>Smoking : Si fuma o no !</li>
+<li>Strenuous mental work : Si el trabajo es estresante mentalmenter</li>
+<li>Strenuous physical work: Si el trabajo exige algún nivel de estrés fisico.</li>
+<li>Pressure: Presión {&lt;140,140&gt;}</li>
+<li>Proteins : Radio de beta o alfa lipoproteinas.</li>
+<li>Family : Antecedentes familiares de enfermedades coronarias.</li>
+</ul>
+</div>
+<div id="un-poco-de-análisis-exploratorio" class="section level2">
+<h2>Un poco de análisis exploratorio</h2>
+<p>La distribución de las observaciones sobre los que fuman o no es la siguiente</p>
+<p><img src="/post/2019-10-19-Redes_Bayesianas_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>La Diferencia es mínima entre los fumadores y los no , por lo cual computare una estadística que determine el comportamiento promedio entre si es fumador o no y los efectos sobre su presión.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Smoking</th>
+<th align="left">Pressure</th>
+<th align="right">Total</th>
+<th align="right">perc</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">no</td>
+<td align="left">&lt;140</td>
+<td align="right">515</td>
+<td align="right">53.59</td>
+</tr>
+<tr class="even">
+<td align="left">no</td>
+<td align="left">&gt;140</td>
+<td align="right">446</td>
+<td align="right">46.41</td>
+</tr>
+<tr class="odd">
+<td align="left">yes</td>
+<td align="left">&lt;140</td>
+<td align="right">539</td>
+<td align="right">61.25</td>
+</tr>
+<tr class="even">
+<td align="left">yes</td>
+<td align="left">&gt;140</td>
+<td align="right">341</td>
+<td align="right">38.75</td>
+</tr>
+</tbody>
+</table>
+<p>La proporción indica que los fumadores tienden a tener la presión más baja.</p>
+<p>Ahora estudiaré está relación en una comparación con los antecedentes familiares , el estrés laboral y el estrés fisico</p>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<p><img src="/post/2019-10-19-Redes_Bayesianas_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Primeras conclusiones :</p>
+<ul>
+<li><p>Tiende a fumarse un poco más cuando hay antecedentes familiares, más al diferencia no es relevante;</p></li>
+<li><p>Se fuma menos cuando hay estrés mental laboral;</p></li>
+<li><p>Se fuma más cuando hay evidencia de estrés fisico.</p></li>
+</ul>
+<p>Quedo con una duda, y es si realmente hay una diferencia o no cuando los individuos tienen antecedentes familiares, por lo cual desarrolllo una prueba de inferencia y los resultados son los siguientes</p>
+<p><img src="/post/2019-10-19-Redes_Bayesianas_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<table class="table table-striped" style="width: auto !important; ">
+<thead>
+<tr>
+<th style="text-align:right;">
+tstat_lessthan140
+</th>
+<th style="text-align:right;">
+tstat_morethan140
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+132.5117
+</td>
+<td style="text-align:right;">
+45.05263
+</td>
+</tr>
+</tbody>
+</table>
+<p>Se calculan los P valores</p>
+<table class="table table-striped" style="width: auto !important; ">
+<thead>
+<tr>
+<th style="text-align:right;">
+pval_neg140
+</th>
+<th style="text-align:right;">
+pval_pos140
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0.0048042
+</td>
+<td style="text-align:right;">
+0.0141283
+</td>
+</tr>
+</tbody>
+</table>
+<p>La evidencia muestra que no hay evidencia para decir que las personas fuman o no desde los antecedentes familiares.</p>
+</div>
+<div id="creando-la-red-bayesiana" class="section level2">
+<h2>Creando la Red Bayesiana</h2>
+<p>Lo primero es crear la red , la cual determinará la dependencia entre variables</p>
+<p><img src="/post/2019-10-19-Redes_Bayesianas_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>El ejericio que intente describir en el paso anterior (exceptuando la parte de inferencia), se puede resumir con la construcción de la red, lo importante de esto es lo que al principio del post argumentaba <strong>estudiar la relación probabilistica entre variables aleatorias</strong>.</p>
+<p>Lo que se puede observar de antemano es que hay algunas relaciones que no tienen sentido practico, por lo cual se elimina la relación entre familia con antecedentes y el estrés mental.</p>
+<p><img src="/post/2019-10-19-Redes_Bayesianas_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Ahora se calculan las probabilidades condicionales</p>
+<pre><code>## 
+##   Parameters of node Proteins (multinomial distribution)
+## 
+## Conditional probability table:
+##  
+## , , M..Work = no
+## 
+##         Smoking
+## Proteins        no       yes
+##       &lt;3 0.6685824 0.6167763
+##       &gt;3 0.3314176 0.3832237
+## 
+## , , M..Work = yes
+## 
+##         Smoking
+## Proteins        no       yes
+##       &lt;3 0.5671982 0.3235294
+##       &gt;3 0.4328018 0.6764706</code></pre>
+<p>Se desarrolla un ejercicio de inferencia para determinar de manera correcta los parámetros de está red y los resultados son los siguientes</p>
+<p>Protenias presenta una relación con dos variables, pero el sentido practico indica que debe ser por una, en la inferencia se intenta probar que el efecto de que sea menor a tres se debe al hecho de no fumar. El resultado es el siguiente</p>
+<pre><code>## [1] 0.6277674</code></pre>
+<p>Pero si se intenta determinar que el efecto de la proteina sea debido a que no fume , cuál es la probabilidad de que sea un no fumador y tener una presión mayor a 140?</p>
+<pre><code>## [1] 0.6334144</code></pre>
+<p>La probabilidad es del 65%</p>
+</div>
+<div id="simulación-de-datos" class="section level2">
+<h2>Simulación de datos</h2>
+<p>El proceso de simulación se desarrolla a través de muestreo de cada uno de los nodos raíz, está técnica con las redes Bayesianas, dada la actualización del conocimiento permite que los estadísticos más robustos sean lo más fieles o similares a la data original. Esta técnica es fundamental para el desarrollo de modelos de ML , puntualmente para equilibrar la data o generar sets de entrenamiento.</p>
+<div id="htmlwidget-1" style="width:100%;height:400px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"nodes":{"id":["Family","M..Work","P..Work","Pressure","Proteins","Smoking"],"label":["Family","M..Work","P..Work","Pressure","Proteins","Smoking"],"color":["darkturquoise","darkturquoise","darkturquoise","darkturquoise","darkturquoise","darkturquoise"],"shadow":[true,true,true,true,true,true]},"edges":{"from":["Smoking","Smoking","Smoking","P..Work","Pressure","Smoking","M..Work","M..Work"],"to":["P..Work","Pressure","M..Work","M..Work","M..Work","Proteins","Proteins","Family"],"arrows":["to","to","to","to","to","to","to","to"],"smooth":[false,false,false,false,false,false,false,false],"shadow":[true,true,true,true,true,true,true,true],"color":["black","black","black","black","black","black","black","black"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot"},"manipulation":{"enabled":false}},"groups":null,"width":"100%","height":"400px","idselection":{"enabled":false},"byselection":{"enabled":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)"},"evals":[],"jsHooks":[]}</script>
+<p>A través de la simulación bayesiana dada las de pendencias y probabilidad de las ocurrencias se obtiene el siguiente resultado</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Smoking</th>
+<th align="left">M..Work</th>
+<th align="left">P..Work</th>
+<th align="left">Pressure</th>
+<th align="left">Proteins</th>
+<th align="left">Family</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">no</td>
+<td align="left">no</td>
+<td align="left">yes</td>
+<td align="left">&lt;140</td>
+<td align="left">&gt;3</td>
+<td align="left">neg</td>
+</tr>
+<tr class="even">
+<td align="left">no</td>
+<td align="left">no</td>
+<td align="left">yes</td>
+<td align="left">&lt;140</td>
+<td align="left">&gt;3</td>
+<td align="left">neg</td>
+</tr>
+<tr class="odd">
+<td align="left">no</td>
+<td align="left">yes</td>
+<td align="left">no</td>
+<td align="left">&gt;140</td>
+<td align="left">&lt;3</td>
+<td align="left">neg</td>
+</tr>
+<tr class="even">
+<td align="left">yes</td>
+<td align="left">yes</td>
+<td align="left">yes</td>
+<td align="left">&lt;140</td>
+<td align="left">&gt;3</td>
+<td align="left">neg</td>
+</tr>
+<tr class="odd">
+<td align="left">no</td>
+<td align="left">yes</td>
+<td align="left">no</td>
+<td align="left">&gt;140</td>
+<td align="left">&lt;3</td>
+<td align="left">neg</td>
+</tr>
+<tr class="even">
+<td align="left">no</td>
+<td align="left">no</td>
+<td align="left">yes</td>
+<td align="left">&lt;140</td>
+<td align="left">&lt;3</td>
+<td align="left">neg</td>
+</tr>
+</tbody>
+</table>
+<p>Se compara la data simulada con respecto a la original</p>
+<p><img src="/post/2019-10-19-Redes_Bayesianas_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="/post/2019-10-19-Redes_Bayesianas_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+<div id="generar-un-modelo-en-cada-caso" class="section level2">
+<h2>Generar un modelo en cada caso</h2>
+<p>Se generan modelos modelos lineales generalizados para evaluar cada uno de los estadísticos y compararlos entre la data simulada y la original.</p>
+<pre><code>## 
+## Call:  glm(formula = Pressure ~ ., family = binomial(link = &quot;logit&quot;), 
+##     data = coronary)
+## 
+## Coefficients:
+## (Intercept)   Smokingyes   M..Workyes   P..Workyes   Proteins&gt;3    Familypos  
+##    -0.60410     -0.33507      0.39470      0.30931      0.34322      0.09737  
+## 
+## Degrees of Freedom: 1840 Total (i.e. Null);  1835 Residual
+## Null Deviance:       2513 
+## Residual Deviance: 2473  AIC: 2485</code></pre>
+<p>Para la data simulada</p>
+<pre class="r"><code>glm(Pressure~., data = coronary_sim,family = binomial(link = &quot;logit&quot;))</code></pre>
+<pre><code>## 
+## Call:  glm(formula = Pressure ~ ., family = binomial(link = &quot;logit&quot;), 
+##     data = coronary_sim)
+## 
+## Coefficients:
+## (Intercept)   Smokingyes   M..Workyes   P..Workyes   Proteins&gt;3    Familypos  
+##    -0.42170     -0.22037      0.36334      0.10599     -0.03559      0.33621  
+## 
+## Degrees of Freedom: 1840 Total (i.e. Null);  1835 Residual
+## Null Deviance:       2512 
+## Residual Deviance: 2487  AIC: 2499</code></pre>
+<p>La conclusión es que los estadísticos son bastante similares, por lo cual la simulación cumplio el fin buscado!</p>
+</div>
+
+                        </div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fdanieljimenezm.com%2fpost%2f2019-10-19-redes_bayesianas%2f&text=Redes%20Bayesianas">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fdanieljimenezm.com%2fpost%2f2019-10-19-redes_bayesianas%2f&title=Redes%20Bayesianas">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fdanieljimenezm.com%2fpost%2f2019-10-19-redes_bayesianas%2f&t=Redes%20Bayesianas">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fdanieljimenezm.com%2fpost%2f2019-10-19-redes_bayesianas%2f&title=Redes%20Bayesianas">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div><div class="row justify-content-center my-3">
+                    <div class="col-lg-8">
+                        <div id="commento"></div>
+                        <script src="https://commento.io"></script>
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://danieljimenezm.com/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                        <a href="mailto:cjimenez187@aol.com" class="icons d-block">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li><li class="list-inline-item">
+                            <a href="https://github.com/carlosjimenez88M" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li><li class="list-inline-item">
+                            <a href="https://www.linkedin.com/in/djimenezm/" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li><li class="list-inline-item">
+                            <a href="https://twitter.com/DanielJimenezM9" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2020, Daniel Jiménez; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+<script>
+    window.Prism = window.Prism || {};
+    window.Prism.manual = true;
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+
+
+
+    
+</body>
+</html>
