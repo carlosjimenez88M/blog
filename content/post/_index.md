@@ -5,7 +5,7 @@ aliases:
 - blog
 - showcase
 - docs
-author: Hugo Authors
+author: Daniel Jiménez
 tags:
 - index
 title: Posts

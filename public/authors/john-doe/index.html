@@ -41,7 +41,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="/authors/john-doe/" />
 <meta property="og:image" content="/john-doe.jpg" />
-<meta property="og:updated_time" content="2019-03-05T00:00:00+00:00" />
+
 <meta itemprop="name" content="">
 <meta itemprop="description" content="Machine Learnign and Statistical modelling."><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="/john-doe.jpg"/>
@@ -49,6 +49,27 @@
 <meta name="twitter:title" content=""/>
 <meta name="twitter:description" content="Machine Learnign and Statistical modelling."/>
 
+
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        // Center justify equations in code and markdown cells. Elsewhere
+        // we use CSS to left justify single line equations in code cells.
+        displayAlign: 'center',
+        "HTML-CSS": {
+            styles: {'.MathJax_Display': {"margin": 0}},
+            linebreaks: { automatic: true }
+        }
+    });
+    </script>
+    
 </head>
 <body>
     
@@ -90,8 +111,7 @@
                         </div>
 
                         <div class="articles">
-                            <h3>Articles</h3><ul><li><a href="/post/emoji-support/">Emoji Support</a></li></ul>
-                            
+                            <h3>Articles</h3>
                         </div>
                     </div>
                 </div>

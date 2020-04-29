@@ -7,7 +7,6 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Copyright © 2020, Daniel Jiménez; all rights reserved.</copyright>
-    <lastBuildDate>Thu, 02 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/authors/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +14,7 @@
     <item>
       <title></title>
       <link>/authors/hugo-authors/</link>
-      <pubDate>Thu, 02 Jan 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/authors/hugo-authors/</guid>
       <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam odio justo, interdum eu ex sit amet, rhoncus interdum magna. Nullam at magna tempor, suscipit ipsum ac, egestas tellus. Maecenas non orci ut velit consectetur feugiat. Proin dignissim ullamcorper eros, at commodo orci eleifend at. Donec luctus diam et interdum finibus. Nullam vel elit hendrerit, aliquet massa eget, vestibulum arcu. Etiam fermentum, sem in interdum scelerisque, massa risus rhoncus turpis, quis efficitur nibh dolor vel dolor.</description>
@@ -24,7 +23,7 @@
     <item>
       <title></title>
       <link>/authors/jane-smith/</link>
-      <pubDate>Sun, 10 Mar 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/authors/jane-smith/</guid>
       <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam odio justo, interdum eu ex sit amet, rhoncus interdum magna. Nullam at magna tempor, suscipit ipsum ac, egestas tellus. Maecenas non orci ut velit consectetur feugiat. Proin dignissim ullamcorper eros, at commodo orci eleifend at. Donec luctus diam et interdum finibus. Nullam vel elit hendrerit, aliquet massa eget, vestibulum arcu. Etiam fermentum, sem in interdum scelerisque, massa risus rhoncus turpis, quis efficitur nibh dolor vel dolor.</description>
@@ -33,7 +32,7 @@
     <item>
       <title></title>
       <link>/authors/john-doe/</link>
-      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/authors/john-doe/</guid>
       <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam odio justo, interdum eu ex sit amet, rhoncus interdum magna. Nullam at magna tempor, suscipit ipsum ac, egestas tellus. Maecenas non orci ut velit consectetur feugiat. Proin dignissim ullamcorper eros, at commodo orci eleifend at. Donec luctus diam et interdum finibus. Nullam vel elit hendrerit, aliquet massa eget, vestibulum arcu. Etiam fermentum, sem in interdum scelerisque, massa risus rhoncus turpis, quis efficitur nibh dolor vel dolor.</description>
